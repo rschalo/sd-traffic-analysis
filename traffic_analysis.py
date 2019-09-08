@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 df = pd.read_csv('pd_collisions_datasd_v1.csv')
 #Open dataframe with collision data
@@ -48,6 +49,10 @@ print('The most crashes happened in {}'.format(most_common_year))
 print('The most crashes happened in {}'.format(most_common_month))
 print('The most crashes happened in {}'.format(most_common_day))
 print('The most crashes happened in {}'.format(most_common_hour))
+
+df.groupby('year')['date_time'].nunique().plot(kind='bar')
+plt.show()
+#find count of unique crash records, grouped by year
 
 print(df.dtypes)
 #confirms that all are object type before combining below
