@@ -4,6 +4,8 @@ import numpy as np
 df = pd.read_csv('pd_collisions_datasd_v1.csv')
 #Open dataframe with collision data
 
+#TODO convert from .csv to json
+
 #TODO filter by year, month, day, hour
 df = df.drop(['report_id',
               'police_beat',
@@ -37,6 +39,15 @@ df['day'] = df['date_time'].dt.day
 df['hour'] = df['date_time'].dt.hour
 #adding columns for date_time graphing
 
+most_common_year = df['year'].mode()
+most_common_month = df['month'].mode()
+most_common_day = df['day'].mode()
+most_common_hour = df['hour'].mode()
+
+print('The most crashes happened in {}'.format(most_common_year))
+print('The most crashes happened in {}'.format(most_common_month))
+print('The most crashes happened in {}'.format(most_common_day))
+print('The most crashes happened in {}'.format(most_common_hour))
 
 print(df.dtypes)
 #confirms that all are object type before combining below
@@ -46,7 +57,3 @@ address_road = df['address_road_primary']
 address_sfx = df['address_sfx_intersecting']
 df['total_address'] = address_number + ' ' + address_road + ' ' + address_sfx
 #combining columns into new column 'working_address'
-
-
-
-print(df)
