@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+#considering plotly instead o matplotlib
 
 df = pd.read_csv('pd_collisions_datasd_v1.csv')
 #Open dataframe with collision data
@@ -22,6 +23,11 @@ df = df.drop(['report_id',
 
 print(df.columns)
 #confirming dropped columns with unwanted data
+
+df['city'] = 'San Diego'
+df['state'] = 'California'
+df['state_ab'] = 'CA'
+#adding San Diego as city for all addresses
 
 df = df.astype(str)
 #cast all columns to type(str) for combining columns
