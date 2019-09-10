@@ -1,16 +1,14 @@
 import pandas as pd
 import numpy as np
+import plotly.express as px
 import matplotlib.pyplot as plt
 #considering plotly instead o matplotlib
 
 df = pd.read_csv('pd_collisions_datasd_v1.csv')
 #Open dataframe with collision data
 
-#TODO convert from .csv to json
-
 #TODO filter by year, month, day, hour
-df = df.drop(['report_id',
-              'police_beat',
+df = df.drop(['police_beat',
               'address_pd_primary',
               'address_sfx_primary',
               'address_pd_intersecting',
@@ -59,6 +57,10 @@ print('The most crashes happened in {}'.format(most_common_hour))
 df.groupby('year')['date_time'].nunique().plot(kind='bar')
 plt.show()
 #find count of unique crash records, grouped by year
+grouped_months = df.groupby('month')
+for key, item in grouped_months:
+    print(grouped_months.get_group(key), '\n\n')
+#grouping by column and printing groups
 
 print(df.dtypes)
 #confirms that all are object type before combining below
