@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-import plotly.express as px
+#import plotly.express as px
 import matplotlib.pyplot as plt
 #considering plotly instead o matplotlib
 
@@ -56,13 +56,23 @@ print('The most crashes happened in {}'.format(most_common_hour))
 
 df.groupby('year')['date_time'].nunique().plot(kind='bar')
 plt.show()
+
+filter = df['year'] == int(2018)
+df.where(filter, inplace = True)
+#this style of code allows for filtering of the dataset by year, but prints NaN 
+print(df.year)
+
+df.groupby('month')['date_time'].nunique().plot(kind='bar')
+plt.show()
+
+
 #find count of unique crash records, grouped by year
-grouped_months = df.groupby('month')
-for key, item in grouped_months:
-    print(grouped_months.get_group(key), '\n\n')
+"""grouped_months = df.groupby(['month'])
+collision_data_count = grouped_months.count().plot()
+plt.show()"""
 #grouping by column and printing groups
 
-print(df.dtypes)
+#print(df.dtypes)
 #confirms that all are object type before combining below
 
 address_number = df['address_number_primary']
