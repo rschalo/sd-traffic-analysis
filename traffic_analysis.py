@@ -56,17 +56,18 @@ print('The most crashes happened in {}'.format(most_common_month))
 print('The most crashes happened in {}'.format(most_common_day))
 print('The most crashes happened in {}'.format(most_common_hour))
 
+plt.figure(1)
 df.groupby('year')['date_time'].nunique().plot(kind='bar')
-plot_a = plt.show()
 
-filter = df['year'] == int(2018)
-df.where(filter, inplace = True)
+
+#filter = df['year'] == int(2018)
+#df.where(filter, inplace = True)
 #this style of code allows for filtering of the dataset by year, but prints NaN
-print(df.year)
 
+plt.figure(2)
 df.groupby('month')['date_time'].nunique().plot(kind='bar')
-plot_b = plt.show()
 
+plt.show()
 
 #find count of unique crash records, grouped by year
 """grouped_months = df.groupby(['month'])
@@ -84,6 +85,6 @@ address_road = df['address_road_primary']
 address_sfx = df['address_sfx_intersecting']
 df['total_address'] = address_number + ' ' + address_road + ' ' + address_sfx + ', ' + city + ', ' + state
 #combining columns into new column 'working_address'
-Geocoder.geocode(df['total_address'][0]).valid_address
+#Geocoder.geocode(df['total_address'][0]).valid_address
 #the Geocoder package could take an address and convert to lat, long
 #TODO: once have lat, long plot the map
