@@ -4,7 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 #considering plotly instead of matplotlib
 from geopy.geocoders import Nominatim
-
+#allows conversion of street addresses to lat, long coords
+import gmplot
 
 df = pd.read_csv('pd_collisions_datasd_v1.csv')
 #Open dataframe with collision data
@@ -78,14 +79,31 @@ address_road = df['address_road_primary']
 address_sfx = df['address_sfx_intersecting']
 df['total_address'] = address_number + ' ' + address_road + ' ' + address_sfx + ', ' + city + ', ' + state
 #combining columns into new column 'working_address'
-
+print(df.count)
 #the Geocoder package could take an address and convert to lat, long
 total_address = df['total_address']
 geolocator = Nominatim(user_agent='sd-traffic-analysis')
-for address in total_address:
+
+def to_coordinates(address):
     try:
         location = geolocator.geocode(address)
-        print((location.latitude, location.longitude))
-    except AttributeError:
+        lats_longs.append(location)
+        print((location.latitude), (location.longitude))
+    except:
         print('Invalid address, moving on...')
+    return lats_longs
+
+
+lats_longs = []
+for index, address in enumerate(total_address):
+    to_coordinates(address)
+    if index == 5:
+        break
+#for testing purposes, limiting to five lines
+
+for location in lats_longs:
+    with open('latitude_longitude.csv', 'a+') as file:
+        file.write(str(location))
+
+
 #TODO: once have lat, long plot the map
