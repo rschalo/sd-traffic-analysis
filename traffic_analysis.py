@@ -3,7 +3,7 @@ import numpy as np
 #import plotly.express as px
 import matplotlib.pyplot as plt
 #considering plotly instead of matplotlib
-from pygeocoder import Geocoder
+from geopy.geocoders import Nominatim
 
 
 df = pd.read_csv('pd_collisions_datasd_v1.csv')
@@ -20,9 +20,6 @@ df = df.drop(['police_beat',
               'charge_desc',
               'hit_run_lvl'], axis=1)
 #dropping columns not needed to map the data
-
-print(df.columns)
-#confirming dropped columns with unwanted data
 
 df['city'] = 'San Diego'
 df['state'] = 'California'
@@ -59,15 +56,11 @@ print('The most crashes happened in {}'.format(most_common_hour))
 plt.figure(1)
 df.groupby('year')['date_time'].nunique().plot(kind='bar')
 
-
-#filter = df['year'] == int(2018)
-#df.where(filter, inplace = True)
-#this style of code allows for filtering of the dataset by year, but prints NaN
-
 plt.figure(2)
 df.groupby('month')['date_time'].nunique().plot(kind='bar')
 
 plt.show()
+#plot collision data grouped by year and by month
 
 #find count of unique crash records, grouped by year
 """grouped_months = df.groupby(['month'])
@@ -85,6 +78,14 @@ address_road = df['address_road_primary']
 address_sfx = df['address_sfx_intersecting']
 df['total_address'] = address_number + ' ' + address_road + ' ' + address_sfx + ', ' + city + ', ' + state
 #combining columns into new column 'working_address'
-#Geocoder.geocode(df['total_address'][0]).valid_address
+
 #the Geocoder package could take an address and convert to lat, long
+total_address = df['total_address']
+geolocator = Nominatim(user_agent='sd-traffic-analysis')
+for address in total_address:
+    try:
+        location = geolocator.geocode(address)
+        print((location.latitude, location.longitude))
+    except AttributeError:
+        print('Invalid address, moving on...')
 #TODO: once have lat, long plot the map
