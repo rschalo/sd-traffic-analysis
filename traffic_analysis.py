@@ -35,9 +35,6 @@ df = df.fillna(0)
 
 df['date_time'] =  pd.to_datetime(df['date_time'])
 
-fatal = df['killed']
-#to be used for conditional analysis
-
 df['year'] = df['date_time'].dt.year
 df['month'] = df['date_time'].dt.month
 df['day'] = df['date_time'].dt.day
@@ -57,12 +54,9 @@ print('The most crashes happened in {}'.format(most_common_month))
 print('The most crashes happened in {}'.format(most_common_day))
 print('The most crashes happened in {}'.format(most_common_hour))
 
-plt.figure(1)
-df.groupby('year')['date_time'].nunique().plot(kind='bar')
-
-plt.figure(2)
-df.groupby('month')['date_time'].nunique().plot(kind='bar')
-
+df.set_index('date_time', inplace=True)
+df.groupby('year')['killed'].count().plot()
+plt.xlabel('Dates')
 plt.show()
 #plot collision data grouped by year and by month
 
@@ -82,7 +76,7 @@ address_road = df['address_road_primary']
 address_sfx = df['address_sfx_intersecting']
 df['total_address'] = address_number + ' ' + address_road + ' ' + address_sfx + ', ' + city + ', ' + state
 #combining columns into new column 'working_address'
-print(df.count)
+print(df.shape)
 #the Geocoder package could take an address and convert to lat, long
 total_address = df['total_address']
 geolocator = Nominatim(user_agent='sd-traffic-analysis')
